@@ -10,7 +10,7 @@ DOWNLOAD_CKPT_URLS = {
     'FR': 'https://myshell-public-repo-host.s3.amazonaws.com/openvoice/basespeakers/FR/checkpoint.pth',
     'JP': 'https://myshell-public-repo-host.s3.amazonaws.com/openvoice/basespeakers/JP/checkpoint.pth',
     'ES': 'https://myshell-public-repo-host.s3.amazonaws.com/openvoice/basespeakers/ES/checkpoint.pth',
-    'ZH': 'https://myshell-public-repo-host.s3.amazonaws.com/openvoice/basespeakers/ZH/checkpoint.pth',
+    'ZH': 'E:\\huggingFace\\MeloTTS-Chinese\\checkpoint.pth',
     'KR': 'https://myshell-public-repo-host.s3.amazonaws.com/openvoice/basespeakers/KR/checkpoint.pth',
 }
 
@@ -20,7 +20,7 @@ DOWNLOAD_CONFIG_URLS = {
     'FR': 'https://myshell-public-repo-host.s3.amazonaws.com/openvoice/basespeakers/FR/config.json',
     'JP': 'https://myshell-public-repo-host.s3.amazonaws.com/openvoice/basespeakers/JP/config.json',
     'ES': 'https://myshell-public-repo-host.s3.amazonaws.com/openvoice/basespeakers/ES/config.json',
-    'ZH': 'https://myshell-public-repo-host.s3.amazonaws.com/openvoice/basespeakers/ZH/config.json',
+    'ZH': 'E:\\huggingFace\\MeloTTS-Chinese\\config.json',
     'KR': 'https://myshell-public-repo-host.s3.amazonaws.com/openvoice/basespeakers/KR/config.json',
 }
 
@@ -61,7 +61,8 @@ def load_or_download_model(locale, device, use_hf=True, ckpt_path=None):
         else:
             assert language in DOWNLOAD_CKPT_URLS
             ckpt_path = cached_path(DOWNLOAD_CKPT_URLS[language])
-    return torch.load(ckpt_path, map_location=device)
+    # 修改 torch.load 调用，添加 weights_only=False 参数
+    return torch.load(ckpt_path, map_location=device, weights_only=False)
 
 def load_pretrain_model():
     return [cached_path(url) for url in PRETRAINED_MODELS.values()]
